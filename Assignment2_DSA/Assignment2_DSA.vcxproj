@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="Assignment2_DSA.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="person.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
