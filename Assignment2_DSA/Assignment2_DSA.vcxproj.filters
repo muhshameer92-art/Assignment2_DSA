@@ -23,5 +23,8 @@
     <ClInclude Include="person.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="NoticeBoard.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

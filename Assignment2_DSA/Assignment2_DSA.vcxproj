@@ -142,6 +142,7 @@
     <ClCompile Include="Assignment2_DSA.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NoticeBoard.h" />
     <ClInclude Include="person.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

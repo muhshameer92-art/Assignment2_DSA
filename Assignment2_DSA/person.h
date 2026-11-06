@@ -1,4 +1,7 @@
 #pragma once
+#include <iostream>
+#include <string>
+using namespace std;
 class person {
 private:
     int playerID;
@@ -72,5 +75,18 @@ public:
     void update_score(int newScore) {
         if (newScore > score)
             score = newScore;
+    }
+    friend ostream& operator << (ostream& out, const person & p) {
+        out << "+______________+\n";
+        out << " Player: " << p.getUsername() << endl;
+        out << " PlayerID: " << p.getPlayerID() << endl;
+        out << " Level: " << p.getLvl() << endl;
+        out << " Score: " << p.getScore() << endl;
+        out << " Matches Played: " << p.getMatchesplayed() << endl;
+        out << " Wins: " << p.getWins() << endl;
+        out << " Losses: " << p.getLosses() << endl;
+        out << " Draws: " << p.getDraws() << endl;
+        out << "+______________+\n";
+        return out;
     }
 };
