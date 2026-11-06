@@ -29,7 +29,7 @@ public:
         losses = l;
         draws = d;
         matchesPlayed = wins + losses + draws;
-        level = max(1, (wins + 0.5 * draws) / 5 + 1);
+        level = max(1, int((wins + 0.5 * draws) / 5 + 1));
     }
     int getWins() const {
         return wins;
@@ -56,7 +56,7 @@ public:
         return username;
     }
     void updateLvl() {
-        level = max(1, (wins + 0.5 * draws) / 5 + 1);
+        level =  max(1, int( (wins + 0.5 * draws) / 5 + 1) );
     }
     void update_wins() {
         wins++;
@@ -75,6 +75,24 @@ public:
     void update_score(int newScore) {
         if (newScore > score)
             score = newScore;
+    }
+    bool operator == (person& p) {
+        if (username == p.username && playerID == p.playerID && level == p.level
+            && score == p.score && matchesPlayed == p.matchesPlayed && wins == p.wins
+            && losses == p.losses && draws == p.draws)
+            return true;
+        return false;
+    }
+    person operator = (const person& p) {
+        username = p.username;
+        playerID = p.playerID;
+        level = p.level;
+        matchesPlayed = p.matchesPlayed;
+        score = p.score;
+        wins = p.wins;
+        losses = p.losses;
+        draws = p.draws;
+        return *this;
     }
     friend ostream& operator << (ostream& out, const person & p) {
         out << "+______________+\n";
