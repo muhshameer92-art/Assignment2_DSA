@@ -1,21 +1,16 @@
 #include <iostream>
-#include "person.h"
-#include "NoticeBoard.h"
+#include "ClubManager.h"
 using namespace std;
 //Test file
 int main()
 {
-    person p1(832,"Shameer",1000,8,1,1);
-    person p2(845, "Mahad", 1100, 9, 1, 0);
-    person p3(822, "Izan", 1200, 10, 0, 0);
-    person p4(757, "Nofil", 1000, 7, 1, 2);
-    NoticeBoard<person>n;
-    n.push_front(p1);
-    n.push_front(p2);
-    n.push_front(p3);
-    n.push_front(p4);
-    n.moveForward(p3);
-    n.displayBackward();
-    n.displayForward();
+    classManager cm;
+    cm.registerPlayer("Shameer", 1000, 8, 1, 1);
+    cm.registerPlayer("Izan", 1200, 9, 0, 1);
+    cm.registerPlayer("Nofil", 1100, 8, 0, 2);
+    cm.registerPlayer("Musa", 1200, 10, 0, 0);
+    
+    cm.revealNoticeBoard();
+    cm.revealRegisteredPlayers();
     return 0;
 }

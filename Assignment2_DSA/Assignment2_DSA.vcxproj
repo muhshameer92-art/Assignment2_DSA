@@ -142,6 +142,9 @@
     <ClCompile Include="Assignment2_DSA.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChessPlayerDirectory.h" />
+    <ClInclude Include="ClubManager.h" />
+    <ClInclude Include="LeaderBoard.h" />
     <ClInclude Include="NoticeBoard.h" />
     <ClInclude Include="person.h" />
   </ItemGroup>

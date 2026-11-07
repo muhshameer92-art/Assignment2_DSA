@@ -26,5 +26,14 @@
     <ClInclude Include="NoticeBoard.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="ClubManager.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChessPlayerDirectory.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LeaderBoard.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

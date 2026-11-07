@@ -2,13 +2,12 @@
 #include <iostream>
 #include "person.h"
 using namespace std;
-template<class T>
 class NoticeBoard {
 	struct PlayerNode {
-		T player;
+		person* player;
 		PlayerNode* next;
 		PlayerNode* prev;
-		PlayerNode(T pl = person(), PlayerNode* n = NULL, PlayerNode* p = NULL) {
+		PlayerNode(person* pl = NULL, PlayerNode* n = NULL, PlayerNode* p = NULL) {
 			player = pl;
 			next = n;
 			prev = p;
@@ -21,40 +20,38 @@ class NoticeBoard {
 			cout << "\n(TAIL)\n";
 			return;
 		}
-		cout << h->player <<endl<<" || \n";
+		cout << *(h->player) <<endl<<" || \n";
 		displayForwardsHelper(h->next);
 	}
-	void displayBackwardsHelper(PlayerNode* h = tail -> prev) {
+	void displayBackwardsHelper(PlayerNode* h) {
 		if (h == head) {
 			cout << "\n(HEAD)\n";
 			return;
 		}
-		cout << h->player << endl << " || \n";
+		cout << *(h->player) << endl << " || \n";
 		displayBackwardsHelper(h->prev);
 	}
-	PlayerNode* search_Player(PlayerNode* curr,  T& p) {
+	PlayerNode* search_Player(PlayerNode* curr,  int &id) {
 		if (curr == tail)
 			return NULL;
-		if (curr->player.getPlayerID() == p.getPlayerID())
+		if (curr->player->getPlayerID() == id)
 			return curr;
-		return search_Player(curr->next, p);
+		return search_Player(curr->next, id);
 	}
-	void move_front(T& p) {
-		if (head->next == tail)
-			return;
-		if (head->next->player.getPlayerID() == p.getPlayerID())
-			return;
-		PlayerNode* curr = head->next;
-		curr = search_Player(curr, p);
-		if (!curr)
-			return;
-		curr->prev->next = curr->next;
-		curr->next->prev = curr->prev;
-
-		curr->next = head->next;
-		head->next->prev = curr;
-		head->next = curr;
-		curr->prev = head;
+	void move_front(person*& p) {
+		
+	}
+	void clear() {
+		PlayerNode* temp = head->next;
+		PlayerNode* pr = head;
+		while (temp != tail) {
+			if (pr != head)
+				delete pr;
+			pr = temp;
+			temp = temp->next;
+		}
+		delete head;
+		delete tail;
 	}
 public:
 	NoticeBoard() {
@@ -65,60 +62,67 @@ public:
 		tail->prev = head;
 		tail->next = NULL;
 	}
-	NoticeBoard(const PlayerNode*p) {
-		head = tail = new PlayerNode();
+	NoticeBoard(const NoticeBoard& p) {
+		head = new PlayerNode();
+		tail = new PlayerNode();
+		head->next = tail;
+		tail->prev = head;
+		head->prev = tail->next = NULL;
+
 		PlayerNode* curr = p.head->next;
-		PlayerNode* temp = head->next;
-		PlayerNode* pr = head;
-		while (!curr) {
-			temp->prev = pr;
-			temp->player = curr->player;
-			pr = temp;
-			temp = temp->next;
+		while (curr != p.tail) {
+			push_back(curr->player);
 			curr = curr->next;
 		}
 	}
-	~NoticeBoard() {
+	bool operator == (const NoticeBoard& other) {
+		PlayerNode* curr = other.head->next;
 		PlayerNode* temp = head->next;
-		while (!temp) {
-			temp = temp->next;
-			delete temp->prev;
+		while (curr != other.tail && temp != tail) {
+			if (curr->player != temp->player)
+				return false;
+			curr = curr->next;
 		}
-		delete head;
-		delete tail;
+		return true;
 	}
-	void push_front(T val) {
-		PlayerNode* temp = new PlayerNode(val, head->next, head);
+	NoticeBoard& operator = (const NoticeBoard& other) {
+		if (other == *this)
+			return *this;
+		clear();
+		head = new PlayerNode();
+		tail = new PlayerNode();
+
+		head->next = tail;
+		tail->prev = head;
+		head->prev = tail->next = NULL;
+
+		PlayerNode* curr = other.head->next;
+		while (curr != other.tail) {
+			push_back(curr->player);
+			curr = curr->next;
+		}
+		return *this;
+	}
+	
+	~NoticeBoard() {
+		clear();
+	}
+	void push_front(person* p) {
+		PlayerNode* temp = new PlayerNode(p, head->next, head);
 		head->next->prev = temp;
 		head->next = temp;
 	}
-	void push_back(T val) {
-		PlayerNode* temp = new PlayerNode(val, tail, tail->prev);
+	void push_back(person* p) {
+		PlayerNode* temp = new PlayerNode(p, tail, tail->prev);
 		tail->prev->next = temp;
 		tail->prev = temp;
 	}
-	void pop_front() {
-		if (head->next == tail)
-			return;
-		PlayerNode* temp = head -> next;
-		head->next = head->next->next;
-		delete temp;
-		head -> next ->prev = head;
-	}
-	void pop_back() {
-		if (head->next == tail)
-			return;
-		PlayerNode* temp = tail->prev;
-		tail->prev = tail->prev->prev;
-		delete temp;
-		tail->prev->next = tail;
-	}
-	void remove(T&d) {
+	void remove(int id) {
 		PlayerNode* temp = head->next;
 		if (temp == tail)
 			return;
 		while (temp != tail) {
-			if (temp->player == d) {
+			if (temp->player->getPlayerID() == id) {
 				temp->prev->next = temp->next;
 				temp->next->prev = temp->prev;
 				delete temp;
@@ -127,8 +131,21 @@ public:
 			temp = temp->next;
 		}
 	}
-	void moveForward(T& p) {
-		move_front(p);
+	void moveForward(int id) {
+		if (head->next == tail)
+			return;
+		
+		PlayerNode* curr = head->next;
+		curr = search_Player(curr, id);
+		if (!curr)
+			return;
+		curr->prev->next = curr->next;
+		curr->next->prev = curr->prev;
+
+		curr->next = head->next;
+		head->next->prev = curr;
+		head->next = curr;
+		curr->prev = head;
 	}
 	void displayForward() {
 		cout << "=====\n(HEAD)\n\n || \n";

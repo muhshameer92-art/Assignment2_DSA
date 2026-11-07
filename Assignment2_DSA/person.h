@@ -83,7 +83,7 @@ public:
             return true;
         return false;
     }
-    person operator = (const person& p) {
+    person& operator = (const person& p) {
         username = p.username;
         playerID = p.playerID;
         level = p.level;
