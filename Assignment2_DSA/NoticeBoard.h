@@ -38,18 +38,16 @@ class NoticeBoard {
 			return curr;
 		return search_Player(curr->next, id);
 	}
-	void move_front(person*& p) {
-		
-	}
 	void clear() {
 		PlayerNode* temp = head->next;
-		PlayerNode* pr = head;
+		PlayerNode* prv = head;
 		while (temp != tail) {
-			if (pr != head)
-				delete pr;
-			pr = temp;
+			if (prv != head)
+				delete prv;
+			prv = temp;
 			temp = temp->next;
 		}
+		delete tail->prev;
 		delete head;
 		delete tail;
 	}
