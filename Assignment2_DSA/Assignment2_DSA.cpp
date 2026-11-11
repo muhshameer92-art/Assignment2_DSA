@@ -19,7 +19,7 @@ int main()
     //cm.removePlayer("Nofil");
     //cm.revealRegisteredPlayers();
     
-    cm.removePlayer("Ibrahim");
+    cm.removePlayer("Izan");
     cm.revealDirectory();
     return 0;
 }

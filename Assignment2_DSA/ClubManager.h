@@ -19,7 +19,7 @@ public:
 	}
 	~classManager() {
 		for (int i = 0; i < players.size(); i++)
-			removePlayer(players.at(i));
+			removePlayer(players.at(i)->getUsername() );
 	}
 	void registerPlayer(string user,int scr ,int win, int loss, int draw) {
 		nextPlayerID++;
@@ -29,11 +29,12 @@ public:
 		players.push_back(p);
 		list.push_back(p);
 		indexBST.insert(p);
+		rankingAVL.insert(p);
 	}
-	void removePlayer(person* user) {
+	void removePlayer(string user) {
 		vector<person*> temp;
 		for (int i = 0; i < players.size(); i++) {
-			if (players[i]->getPlayerID() == user->getPlayerID() ) {
+			if (players[i]->getUsername() == user) {
 				indexBST.remove(players[i]);
 				list.remove(players[i]->getPlayerID());
 				delete players[i];

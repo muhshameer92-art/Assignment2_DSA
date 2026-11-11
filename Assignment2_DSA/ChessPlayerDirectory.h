@@ -19,7 +19,7 @@ class chessPlayerDirectory {
 		if (!p)
 		{
 			cout << "No Player Found!" << endl;
-			return;
+			return node;
 		}
 		if (!node) {
 			return new playerRecord(p);
@@ -43,7 +43,7 @@ class chessPlayerDirectory {
 		if (!p)
 		{
 			cout << "No Player Found!" << endl;
-			return;
+			return node;
 		}
 		if (node->player->getUsername() == p->getUsername() ) {
 			if (!node->left && !node->right) {
