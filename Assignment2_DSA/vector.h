@@ -1,4 +1,6 @@
 #pragma once
+#include<iostream>
+using namespace std;
 template<class T>
 class vector {
 	T* pl;
@@ -20,11 +22,27 @@ public:
 		currentSize = 0;
 	}
 	vector(const vector& vec) {
-		currentSize = vec.size();
-		currentCapacity = vec.capacity();
-		for (int i = 0; i < vec.size(); i++) {
-			*this->at(i) = vec.at(i);
-		}
+		currentCapacity = vec.currentCapacity < 2 ? 2 : vec.currentCapacity;
+		currentSize = vec.currentSize < currentCapacity ? vec.currentSize : currentCapacity;
+		pl = new T[currentCapacity];
+		for (int i = 0; i < currentSize; i++)
+			pl[i] = vec.pl[i];
+	}
+	vector& operator=(const vector& other) {
+
+		if (this == &other)
+			return *this;
+
+		int cap = other.currentCapacity < 2 ? 2 : other.currentCapacity;
+		int n = other.currentSize < cap ? other.currentSize : cap;
+		T* temp = new T[cap];
+		for (int i = 0; i < n; i++)
+			temp[i] = other.pl[i];   
+		delete[] pl;
+		pl = temp;
+		currentCapacity = cap;
+		currentSize = n;
+		return *this;
 	}
 	~vector() {
 		delete[]pl;
@@ -36,8 +54,10 @@ public:
 		return currentCapacity;
 	}
 	T at(int i) const {
-		if (i < 0 || i >= currentSize)
-			return NULL;
+		if (i < 0 || i >= currentSize) {
+			cout << "Error!ClubManager>Vector says: \'Out of Range!\'"<<endl;
+			return T();
+		}
 		return pl[i];
 	}
 	void push_back(T val) {
@@ -47,12 +67,9 @@ public:
 		currentSize++;
 	}
 	void pop_back() {
-		T* temp = new T [currentCapacity];
+		if (currentSize == 0)
+			return;
 		currentSize--;
-		for (int i = 0; i < currentSize; i++) {
-			temp[i] = pl[i];
-		}
-		delete[]pl;
-		pl = temp;
+		
 	}
 };

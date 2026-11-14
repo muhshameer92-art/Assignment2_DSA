@@ -85,9 +85,6 @@ public:
 		if (&other == this)
 			return *this;
 		clear();
-		head = new PlayerNode();
-		tail = new PlayerNode();
-
 		head->next = tail;
 		tail->prev = head;
 		head->prev = tail->next = NULL;
