@@ -40,16 +40,13 @@ class NoticeBoard {
 	}
 	void clear() {
 		PlayerNode* temp = head->next;
-		PlayerNode* prv = head;
-		while (temp != tail) {
-			if (prv != head)
-				delete prv;
-			prv = temp;
-			temp = temp->next;
+		while (head->next != tail) {
+			temp = head->next;
+			head -> next = temp->next;
+			delete temp;
 		}
-		delete tail->prev;
-		delete head;
-		delete tail;
+		head->next = tail;
+		tail->prev = head;
 	}
 public:
 	NoticeBoard() {
@@ -80,11 +77,12 @@ public:
 			if (curr->player != temp->player)
 				return false;
 			curr = curr->next;
+			temp = temp->next;
 		}
 		return true;
 	}
 	NoticeBoard& operator = (const NoticeBoard& other) {
-		if (other == *this)
+		if (&other == this)
 			return *this;
 		clear();
 		head = new PlayerNode();
@@ -104,13 +102,19 @@ public:
 	
 	~NoticeBoard() {
 		clear();
+		delete head;
+		delete tail;
 	}
 	void push_front(person* p) {
+		if (!p)
+			return;
 		PlayerNode* temp = new PlayerNode(p, head->next, head);
 		head->next->prev = temp;
 		head->next = temp;
 	}
 	void push_back(person* p) {
+		if (!p)
+			return;
 		PlayerNode* temp = new PlayerNode(p, tail, tail->prev);
 		tail->prev->next = temp;
 		tail->prev = temp;

@@ -14,12 +14,9 @@ int main()
     cm.registerPlayer("Ahmad", 1250, 10, 0, 0);
     cm.registerPlayer("Ali", 1000, 10, 0, 0);
     
+    cm.revealRegisteredPlayers();
+    //cm.revealLeaderBoard();
+    //cm.revealDirectory();
     //cm.revealNoticeBoard();
-    //cm.revealRegisteredPlayers();
-    //cm.removePlayer("Nofil");
-    //cm.revealRegisteredPlayers();
-    
-    cm.removePlayer("Izan");
-    cm.revealDirectory();
     return 0;
 }

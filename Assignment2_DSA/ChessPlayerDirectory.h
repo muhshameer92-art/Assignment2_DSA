@@ -28,7 +28,21 @@ class chessPlayerDirectory {
 			node->left = insertHelper(node->left, p);
 		else if (node->player->getUsername() < p->getUsername())
 			node->right = insertHelper(node->right, p);
+		else
+			cout << "Username already exists!" << endl;
 		return node;
+	}
+	playerRecord* searchHelper(playerRecord* node, string username) {
+		if (!node)
+			return nullptr;
+
+		if (node->player->getUsername() == username)
+			return node;
+
+		if (username < node->player->getUsername())
+			return searchHelper(node->left, username);
+
+		return searchHelper(node->right, username);
 	}
 	playerRecord* findMax(playerRecord* node) {
 		if (!node)
@@ -81,12 +95,35 @@ class chessPlayerDirectory {
 		cout << node->player->getUsername() << endl;
 		printInOrder(node->right);
 	}
+	void reverseOrderHelper(playerRecord* node) {
+		if (!node)
+			return;
+		reverseOrderHelper(node->right);
+		cout << node->player->getUsername() << endl;
+		reverseOrderHelper(node->left);
+	}
+	void rangeHelper(playerRecord* node, string low, string high) {
+		if (!node)
+			return;
+
+		string username = node->player->getUsername();
+
+		if (username > low)
+			rangeHelper(node->left, low, high);
+
+		if (username >= low && username <= high)
+			cout << username << endl;
+
+		if (username < high)
+			rangeHelper(node->right, low, high);
+	}
 	void destroy(playerRecord* node) {
 		if (!node)
 			return;
+
 		destroy(node->left);
-		destroy(node->left);
-		remove(node->player);
+		destroy(node->right);
+		delete node;
 	}
 public:
 	chessPlayerDirectory() {
@@ -107,6 +144,25 @@ public:
 	}
 	void display() {
 		printInOrder(root);
+	}
+	void display_Reverse() {
+		reverseOrderHelper(root);
+	}
+	void displayRange(string low, string high) {
+		if (low > high) {
+			cout << "Invalid range!" << endl;
+			return;
+		}
+
+		rangeHelper(root, low, high);
+	}
+	person* search(string username) {
+		playerRecord* result = searchHelper(root, username);
+
+		if (!result)
+			return nullptr;
+
+		return result->player;
 	}
 	
 };

@@ -35,5 +35,8 @@
     <ClInclude Include="LeaderBoard.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="vector.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

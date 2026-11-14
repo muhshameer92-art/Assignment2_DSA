@@ -1,11 +1,12 @@
 #pragma once
 #include <iostream>
-#include <vector>
+#include "vector.h"//my own vector implementation
 #include "person.h"
 #include "NoticeBoard.h"
 #include "ChessPlayerDirectory.h"
 #include "LeaderBoard.h"
 using namespace std;
+
 class classManager {
 private:
 	vector<person*> players;
@@ -22,6 +23,13 @@ public:
 			removePlayer(players.at(i)->getUsername() );
 	}
 	void registerPlayer(string user,int scr ,int win, int loss, int draw) {
+		if (user == "")
+		{
+			cout << "No player is mentioned!" << endl;
+			return;
+		}
+		if (scr < 0 || win < 0 || loss < 0 || draw < 0)
+			return;
 		nextPlayerID++;
 		if(!user.empty())
 			user[0] = toupper(user[0]);//capitalize first letter of word
@@ -32,15 +40,23 @@ public:
 		rankingAVL.insert(p);
 	}
 	void removePlayer(string user) {
+		if (user == "")
+		{
+			cout << "No player is mentioned!" << endl;
+			return;
+		}
 		vector<person*> temp;
-		for (int i = 0; i < players.size(); i++) {
-			if (players[i]->getUsername() == user) {
-				indexBST.remove(players[i]);
-				list.remove(players[i]->getPlayerID());
-				delete players[i];
+		bool isFirst = true; // to ensure that only one player is removed in case of dups
+		for (int i = players.size() - 1; i >= 0; --i) {// better to remove low scorer
+			if (players.at(i)->getUsername() == user && isFirst) {
+				isFirst = false;
+				rankingAVL.remove(players.at(i));
+				indexBST.remove(players.at(i));
+				list.remove(players.at(i)->getPlayerID());
+				delete players.at(i);
 			}
 			else {
-				temp.push_back(players[i]);
+				temp.push_back(players.at(i));
 			}
 		}
 		players = temp;
@@ -53,10 +69,25 @@ public:
 			cout << *players.at(i) << endl;
 		}
 	}
+	void revealLeaderBoard() {
+		rankingAVL.displayAscending();
+		
+	}
 	void revealDirectory() {
 		indexBST.display();
 	}
+	void revealTopPlayer() {
+		rankingAVL.displayHighest();
+	}
+	void revealBottomPlayer() {
+		rankingAVL.displayLowest();
+	}
 	void bringForward(string name) {
+		if (name == "") {
+			cout << "No player mentioned!" << endl;
+			return;
+		}
+
 		for (int i = 0; i < players.size(); ++i) {
 			if (players.at(i)->getUsername() == name)
 				list.moveForward(players.at(i)->getPlayerID());
